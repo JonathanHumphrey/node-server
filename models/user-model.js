@@ -4,41 +4,43 @@ const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 async function register(user) {
-    try{
-       user.password = await bcrypt.hashSync(user.password, 14);
-       
-       const id = await db('users').insert(user);
-       return findByEmail(user.email);
-    } catch(err) {
+    try {
+        user.password = await bcrypt.hash(user.password, 14);
+
+        const id = await db('users').insert(user);
+        return findByEmail(user.email);
+    } catch (err) {
         console.log(err)
     }
 }
-async function findByEmail (email){
-    try{
-        const user = await db('user').select('*').where({ email }).first();
+async function findByEmail(email) {
+    console.log(email)
+    try {
+        const user = await db('users').select('*').where({ email }).first();
+        console.log(user)
         return user;
-    } catch(err) {
+    } catch (err) {
         console.log(err)
     }
 }
-async function findByUsername (username){
-    try{
-        const user = await db('user').select('*').where(username).first();
+async function findByUsername(username) {
+    try {
+        const user = await db('users').select('*').where(username).first();
         return user;
-    } catch(err) {
+    } catch (err) {
         console.log(err)
     }
 }
-async function findById(id){
-    try{
-       return db('users').select('*').where(id).first();
-    } catch(err) {
+async function findById(id) {
+    try {
+        return db('users').select('*').where(id).first();
+    } catch (err) {
         console.log(err)
     }
 }
-async function sendEmail(email, token){
+async function sendEmail(email, token) {
     const msg = {
-        to: email, 
+        to: email,
         from: 'jonny105596@outlook.com',
         subject: 'Password Reset Link',
         html: `
@@ -49,7 +51,7 @@ async function sendEmail(email, token){
     };
     sgMail
         .send(msg)
-        .then(() =>{
+        .then(() => {
             console.log('email sent');
         })
         .catch((error) => {
@@ -57,24 +59,24 @@ async function sendEmail(email, token){
         })
 }
 async function update(id, changes) {
-    if(changes){
-        return db('users').where({id}).update(changes)
+    if (changes) {
+        return db('users').where({ id }).update(changes)
             .catch(err => {
                 console.log(err)
             })
     }
 }
 
-function filterBy(filter){
+function filterBy(filter) {
     return db('users').where(filter).first();
 }
 module.exports = {
-    register, 
+    register,
     findByEmail,
     findByUsername,
     findById,
-    update, 
-    filterBy, 
+    update,
+    filterBy,
     sendEmail,
 
 }
