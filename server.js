@@ -33,6 +33,7 @@ app.use(require('cors')({
     methods: ['GET', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD']
 }))
 
+// Configures the session and grabs variables 
 const sessionConfig = {
     secret: process.env.SESSION_SECRET,
     cookie: {
@@ -67,6 +68,7 @@ morgan.token('user', (req) => {
     }
 });
 
+// Formats json for server request information
 function jsonFormat(tokens, req, res) {
     return JSON.stringify({
         ip: tokens.ip(req, res),

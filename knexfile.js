@@ -1,7 +1,7 @@
 // Update with your config settings.
 require('dotenv').config()
 module.exports = {
-
+// Sets up the Credentials for the dev and build server
   development: {
     client: 'postgresql',
     connection: {

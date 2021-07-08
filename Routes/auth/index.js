@@ -5,13 +5,14 @@ const jwt = require('jsonwebtoken')
 
 const resetSecret = process.env.RESET_SECRET
 
+// Server Commands
+
 router.post("/register", async (req, res, next) => {
     try {
         const {
             email,
         } = req.body;
         const user = await findByEmail({ email });
-
         if (user) {
 
             res

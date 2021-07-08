@@ -16,4 +16,6 @@ exports.down = async function(knex) {
   await knex.schema.dropTableIfExists('users');
 };
 
-// NOTE: Tables are created and dropped in FILO fashion 
+// NOTES: 
+// - Tables are created and dropped in FILO fashion
+// - Order needs to mimic this in the database calls 
